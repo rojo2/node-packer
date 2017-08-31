@@ -4,4 +4,6 @@ This scripts are a simple demonstration of how you can pack the node interpreter
 
 If you want to give it a try just type `./packer.sh test.js output.sh` to do a quick test.
 
+Tested on macOS and Ubuntu.
+
 Made with :heart: by ROJO 2 (http://rojo2.com)
