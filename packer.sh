@@ -1,5 +1,4 @@
-#!/bin/sh
-
+#!/bin/bash
 if [[ -z $1 ]]; then
   echo "You need to specify a javascript file"
   echo "Usage: $0 <script> <output>"
@@ -12,12 +11,17 @@ if [[ -z $2 ]]; then
   exit 1
 fi
 
+OS=$(uname)
 INTERPRETER="node"
 INTERPRETER_PATH=$(which ${INTERPRETER})
-INTERPRETER_SIZE=$(stat -f%z ${INTERPRETER_PATH})
-
 SCRIPT_PATH=$1
-SCRIPT_SIZE=$(stat -f%z ${SCRIPT_PATH})
+if [[ $OS == "Darwin" ]]; then
+  INTERPRETER_SIZE=$(stat -f%z ${INTERPRETER_PATH})
+  SCRIPT_SIZE=$(stat -f%z ${SCRIPT_PATH})
+else 
+  INTERPRETER_SIZE=$(du -b ${INTERPRETER_PATH} | grep -oE ^[0-9]+)
+  SCRIPT_SIZE=$(du -b ${SCRIPT_PATH} | grep -oE ^[0-9]+)
+fi
 
 TOTAL_SIZE=$(expr ${INTERPRETER_SIZE} + ${SCRIPT_SIZE})
 
